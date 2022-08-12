@@ -1,4 +1,4 @@
-# fullstackopen2020
+# fullstackopen2022
 
 This project is implemented by following the web development course with JavaScript: https://fullstackopen.com/.
 
