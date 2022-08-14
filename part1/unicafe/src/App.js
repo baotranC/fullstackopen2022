@@ -8,6 +8,10 @@ const Button = ({ onClick, text }) => {
   )
 }
 
+const StatisticLine = ({text, value}) => {
+  return <div>{text} {value}</div>
+} 
+
 const Statistic = ({ good, neutral, bad }) => {
   const sum = () => good + neutral + bad
   const average = () => {
@@ -23,12 +27,12 @@ const Statistic = ({ good, neutral, bad }) => {
 
   if (sum()) {
     return <div>
-      <div>good {good}</div>
-      <div>neutral {neutral}</div>
-      <div>bad {bad}</div>
-      <div>all {sum()}</div>
-      <div>average {average()}</div>
-      <div>positive {positive()} %</div>
+      <StatisticLine text='good' value={good}></StatisticLine>
+      <StatisticLine text='neutral' value={neutral}></StatisticLine>
+      <StatisticLine text='bad' value={bad}></StatisticLine>
+      <StatisticLine text='all' value={sum()}></StatisticLine>
+      <StatisticLine text='average' value={average()}></StatisticLine>
+      <StatisticLine text='positive' value={positive()+' %'}></StatisticLine>
     </div>
   } else {
     return <div>No feedback given</div>
