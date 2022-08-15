@@ -11,7 +11,7 @@ Use of variables, arrays and objects.
 
 ## courseinfo
 
-![](/courseinfo.JPG)
+![](courseinfo.JPG)
 
 ## Run 
 - `npm start`
