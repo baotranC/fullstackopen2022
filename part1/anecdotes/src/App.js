@@ -17,7 +17,8 @@ const App = () => {
    
   const [state, setState] = useState({
     points: Array(anecdotes.length).fill(0),
-    anecdoteIndex: 0
+    anecdoteIndex: 0,
+    maxVoteIndex: 0
   })
 
   const nextAnecdote = () => {
@@ -33,20 +34,30 @@ const App = () => {
   const vote = () => {
     const newPoints = [ ...state.points ]
     newPoints[state.anecdoteIndex] += 1
-    
+
+    let newMaxVoteIndex = state.maxVoteIndex
+    if(newPoints[newMaxVoteIndex] <= newPoints[state.anecdoteIndex]){
+      newMaxVoteIndex = state.anecdoteIndex
+    }
+
     const newState = {
       ...state,
-      points: newPoints
+      points: newPoints,
+      maxVoteIndex: newMaxVoteIndex
     }
     setState(newState)
   }
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <div>{anecdotes[state.anecdoteIndex]}</div>
       <div>has {state.points[state.anecdoteIndex]} votes</div>
       <Button onClick={vote} value='vote'></Button>
       <Button onClick={nextAnecdote} value='next anecdote'></Button>
+
+      <h1>Anecdote with most votes</h1>
+      <div>{anecdotes[state.maxVoteIndex]}</div>
     </div>
   )
 }
