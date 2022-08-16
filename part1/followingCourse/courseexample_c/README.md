@@ -1,6 +1,6 @@
 # Part 1: Following course
 
-This application was obtained by following the examples in part 1 of sections c)Component state, event handlers
+This application was obtained by following the examples in part 1 of sections c) Component state, event handlers
 
 ## following course
 
