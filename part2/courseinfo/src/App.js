@@ -26,7 +26,7 @@ const Content = (props) => {
 const Total = (props) => {
   const total = props.course.parts.reduce((accumulator, current) => accumulator + current.exercises, 0)
   return (
-    <p>Number of exercises {total}</p>
+    <strong>total of {total} exercices</strong>
   )
 }
 
