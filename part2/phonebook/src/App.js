@@ -13,22 +13,38 @@ const App = () => {
   useEffect(() => {
     personService.getAll()
       .then(initialPersons => {
-        console.log(initialPersons)
         setPersons(initialPersons)
       })
   }, [])
 
   const handleNameChange = (event) => {
-    // console.log(event.target.value)
     setNewName(event.target.value)
   }
 
   const addPerson = (event) => {
     event.preventDefault()
-    if (persons.find(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
-    } else if (persons.find(person => person.number.match("^[0-9]-*") == null)) {
-      alert(`${newNumber} is not a valid number`)
+    const personInPhonebook = persons.find(person => person.name === newName)
+
+    if (personInPhonebook) {
+      if (window.confirm(`${newName} is already added to phonebook, replace the old numver with a new one?`)) {
+        const nameObject = {
+          name: newName,
+          number: newNumber
+        }
+
+        personService.update(personInPhonebook.id, nameObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== personInPhonebook.id ? person : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          }).catch(error => {
+            alert(
+              `the person '${personInPhonebook.name}' was already deleted from server`
+            )
+            setPersons(persons.filter(person => person.id !== personInPhonebook.id))
+          })
+      }
+
     }
     else {
       const nameObject = {
