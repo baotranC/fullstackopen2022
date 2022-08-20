@@ -10,7 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [successfulMessage, setSuccessfulMessage] = useState(null)
+  const [status, setStatus] = useState({ message: null, type: null })
 
   useEffect(() => {
     personService.getAll()
@@ -41,20 +41,28 @@ const App = () => {
             setPersons(persons.map(person => person.id !== personInPhonebook.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
-            setSuccessfulMessage(
-              `Updated ${returnedPerson.name}`
+            setStatus(
+              {
+                message: `Updated ${returnedPerson.name}`,
+                type: 'successful'
+              }
             )
             setTimeout(() => {
-              setSuccessfulMessage(null)
+              setStatus({ message: null, type: null })
             }, 5000)
           }).catch(error => {
-            alert(
-              `the person '${personInPhonebook.name}' was already deleted from server`
+            setStatus(
+              {
+                message: `the person '${personInPhonebook.name}' was already deleted from server`,
+                type: 'error'
+              }
             )
+            setTimeout(() => {
+              setStatus({ message: null, type: null })
+            }, 5000)
             setPersons(persons.filter(person => person.id !== personInPhonebook.id))
           })
       }
-
     }
     else {
       const nameObject = {
@@ -67,11 +75,14 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setSuccessfulMessage(
-            `Added ${returnedPerson.name}`
+          setStatus(
+            {
+              message: `Added ${returnedPerson.name}`,
+              type: 'successful'
+            }
           )
           setTimeout(() => {
-            setSuccessfulMessage(null)
+            setStatus({ message: null, type: null })
           }, 5000)
         })
     }
@@ -82,7 +93,17 @@ const App = () => {
       personService.remove(person.id)
         .then(
           setPersons(persons.filter(p => p.id !== person.id))
-        )
+        ).catch(error => {
+          setStatus(
+            {
+              message: `the person '${person.name}' was already deleted from server`,
+              type: 'error'
+            }
+          )
+          setTimeout(() => {
+            setStatus({ message: null, type: null })
+          }, 5000)
+        })
     }
   }
 
@@ -98,7 +119,7 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={successfulMessage} />
+      <Notification message={status.message} type={status.type} />
       <h2>Phonebook</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange}></Filter>
 
