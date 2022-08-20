@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [successfulMessage, setSuccessfulMessage] = useState(null)
 
   useEffect(() => {
     personService.getAll()
@@ -16,6 +18,8 @@ const App = () => {
         setPersons(initialPersons)
       })
   }, [])
+
+  console.log(persons)
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -37,6 +41,12 @@ const App = () => {
             setPersons(persons.map(person => person.id !== personInPhonebook.id ? person : returnedPerson))
             setNewName('')
             setNewNumber('')
+            setSuccessfulMessage(
+              `Updated ${returnedPerson.name}`
+            )
+            setTimeout(() => {
+              setSuccessfulMessage(null)
+            }, 5000)
           }).catch(error => {
             alert(
               `the person '${personInPhonebook.name}' was already deleted from server`
@@ -57,6 +67,12 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setSuccessfulMessage(
+            `Added ${returnedPerson.name}`
+          )
+          setTimeout(() => {
+            setSuccessfulMessage(null)
+          }, 5000)
         })
     }
   }
@@ -65,7 +81,7 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) {
       personService.remove(person.id)
         .then(
-          setPersons(persons.filter(p => p.id != person.id))
+          setPersons(persons.filter(p => p.id !== person.id))
         )
     }
   }
@@ -82,6 +98,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={successfulMessage} />
       <h2>Phonebook</h2>
       <Filter filter={filter} handleFilterChange={handleFilterChange}></Filter>
 
