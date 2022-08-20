@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const DisplayCountry = ({ country }) => {
+const DisplayCountryDetail = ({ country }) => {
   return (
     <div>
       <h1>{country.name.common}</h1>
@@ -19,22 +19,29 @@ const DisplayCountry = ({ country }) => {
   )
 }
 
-const DisplayCountries = ({ countries, filter }) => {
+const DisplayCountry = ({ country }) => {
+  const [showDetail, setShowDetail] = useState(false)
+  
+  return (
+    <div>
+      <div>{country.name.common} <button onClick={() => setShowDetail(!showDetail)}>show</button></div>
+      {showDetail ? <DisplayCountryDetail country={country}></DisplayCountryDetail> : null}
+    </div>
+  )
+}
+
+const DisplayCountries = ({ countries }) => {
   if (countries.length == 1) {
     const country = countries[0]
 
     return (
-      <DisplayCountry country={country}></DisplayCountry>
+      <DisplayCountryDetail country={country}></DisplayCountryDetail>
     )
   } else if (countries.length <= 10) {
     return (
       <div>
         {countries.map(country => {
-          return (
-            <div key={country.name.common}>
-               <div>{country.name.common} <button onClick={() => {console.log("click", country.name.common)}} >show</button></div>
-            </div>
-          )
+          return(<DisplayCountry key={country.name.common} country={country}></DisplayCountry>)
         })}
       </div>
     )
