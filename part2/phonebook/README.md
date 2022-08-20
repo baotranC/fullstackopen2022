@@ -28,13 +28,10 @@ This application allows you to manage a phonebook: addition, modification, delet
 # Others
 
 This application uses json-server to store all data in db.json file. 
-
     ![](phonebook6.JPG)
 
 This application also handle some exception. If you delete a person in browser 1 a short while before attempting to change the person's phone number in browser 2, you will get a error message.
-
     ![](phonebook8.JPG)
-
     ![](phonebook9.JPG)
 
 ## Run 
