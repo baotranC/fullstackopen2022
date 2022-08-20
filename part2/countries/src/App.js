@@ -1,32 +1,42 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
+const DisplayCountry = ({ country }) => {
+  return (
+    <div>
+      <h1>{country.name.common}</h1>
+      <div>capital {country.capital}</div>
+      <div>area {country.area}</div>
+
+      <h2>languages</h2>
+      <ul>
+        {Object.keys(country.languages).map(key => {
+          return <li key={key}>{country.languages[key]}</li>
+        })}
+      </ul>
+      <img src={country.flags.png} alt="Flag"></img>
+    </div>
+  )
+}
+
 const DisplayCountries = ({ countries, filter }) => {
-  const countriesToShow = countries.filter(country => filter != '' && country.name.common.toLowerCase().includes(filter.toLowerCase()))
+  if (countries.length == 1) {
+    const country = countries[0]
 
-  if (countriesToShow.length == 1) {
-    const country = countriesToShow[0]
-
+    return (
+      <DisplayCountry country={country}></DisplayCountry>
+    )
+  } else if (countries.length <= 10) {
     return (
       <div>
-        <h1>{country.name.common}</h1>
-        <div>capital {country.capital}</div>
-        <div>area {country.area}</div>
-
-        <h2>languages</h2>
-        <ul>
-          {Object.keys(country.languages).map(key => {
-            return <li key={key}>{country.languages[key]}</li>
-          })}
-        </ul>
-        <img src={country.flags.png} alt="Flag"></img>
+        {countries.map(country => {
+          return (
+            <div key={country.name.common}>
+               <div>{country.name.common} <button onClick={() => {console.log("click", country.name.common)}} >show</button></div>
+            </div>
+          )
+        })}
       </div>
-    )
-  } else if (countriesToShow.length <= 10) {
-    return (
-      <ul>
-        {countriesToShow.map(country => <li key={country.name.common}>{country.name.common}</li>)}
-      </ul>
     )
   } else {
     return (
@@ -51,10 +61,12 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const countriesToShow = countries.filter(country => filter != '' && country.name.common.toLowerCase().includes(filter.toLowerCase()))
+
   return (
     <div>
       <div>find countries <input value={filter} onChange={handleFilterChange} /></div>
-      <DisplayCountries countries={countries} filter={filter}></DisplayCountries>
+      <DisplayCountries countries={countriesToShow}></DisplayCountries>
     </div>
   )
 }
