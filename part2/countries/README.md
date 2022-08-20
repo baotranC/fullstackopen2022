@@ -29,7 +29,7 @@ To display the weather, the weather https://openweathermap.org API is used. (Ple
 ## TODO: Configuration 
 Need to configure environment variable using .env file:
 
-    ![](countries6.JPG)
+![](countries6.JPG)
 
     # .env
     REACT_APP_API_KEY=[Enter API key]
