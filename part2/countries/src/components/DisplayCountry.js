@@ -5,7 +5,7 @@ const DisplayCountry = ({ country }) => {
   
     return (
       <div>
-        <div>{country.name.common} <button onClick={() => setShowDetail(!showDetail)}>show</button></div>
+        <div>{country.name.common} <button onClick={() => setShowDetail(!showDetail)}>{!showDetail ? "show" : "hide"}</button></div>
         {showDetail ? <DisplayCountryDetail country={country}></DisplayCountryDetail> : null}
       </div>
     )

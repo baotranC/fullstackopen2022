@@ -15,11 +15,14 @@ This application allows you to search various countries. The country to be shown
 There is a button next to the name of the country, which when pressed shows the view for that country:
     ![](countries3.JPG)
 
+To display the weather, the weather https://openweathermap.org API is used. (Please refer to TODO: Configuration section)   
+
 - If there is only one country matching the query, then the basic data of the country are shown:
 
     ![](countries4.JPG)
 
 - If there is none of the country matching the query:
+    
     ![](countries5.JPG)
 
 
