@@ -1,3 +1,6 @@
+BE: https://github.com/baotranC/fullstackopen2022_part3_followingCourse_BE
+FE: https://github.com/baotranC/fullstackopen2022/tree/main/part3/followingCourse/courseexample_b_part2_courseexample_e_Frontend
+
 # Notes app# Part 2: Following course
 
 This application displays notes. The data is extracted and saved in the server. A button has been added to each note so it can be used to toggle its importance. 
