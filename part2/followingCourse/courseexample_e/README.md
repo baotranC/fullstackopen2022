@@ -1,6 +1,6 @@
 # Notes app# Part 2: Following course
 
-This application displays notes. The data is extracted and saved in the server. A button has been added to each note so it can be used to toggle its importance. 
+This application displays notes. The data is extracted and saved in the server. This application uses json-server to store all data in db.json file. A button has been added to each note so it can be used to toggle its importance. 
 
 This section teaches the basics of adding styles to a React application.
 
