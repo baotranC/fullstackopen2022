@@ -5,7 +5,7 @@
 # Notes app# Part 3: Following course
 
 ## following course a) Node.js and Express
-This backend server in Node return notes uses the Express library which provide an interface to work with the built-in http module. 
+This backend server in Node returns notes using the Express library which provides an interface to work with the built-in http module. 
 
 Nodemon is use to automatically reload the server after a change is made.
 
@@ -23,10 +23,10 @@ These are the possible requests:
     }
 
 ## Tools to test API
-These tools allows to test HTTP requests
+These tools allow to test HTTP requests
 
 ### - Postman 
-Exemple POST request: 
+Example POST request: 
 ![](courseexample_a1.JPG)
 
 ![](courseexample_a2.JPG)
@@ -34,7 +34,7 @@ Exemple POST request:
 ### - Visual Studio Code REST client plugin 
 Main advantage: available at the root of the project repository, and requests can be distributed to everyone in the development team
 
-Exemple POST request: 
+Example POST request: 
 ![](courseexample_a3.JPG)
 
 ## Run 
