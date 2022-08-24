@@ -1,7 +1,8 @@
 import axios from 'axios'
-// const baseUrl = 'http://localhost:3001/notes'
-// const baseUrl = 'http://localhost:3001/api/notes'
-const baseUrl = 'https://dry-river-43580.herokuapp.com/api/notes'
+// const baseUrl = 'http://localhost:3001/notes' // json server (db.json)
+// const baseUrl = 'http://localhost:3001/api/notes' // backend server
+// const baseUrl = 'https://dry-river-43580.herokuapp.com/api/notes' // heroku server
+const baseUrl = '/api/notes' // relative URL
 
 const getAll = () => {
     const request = axios.get(baseUrl)
