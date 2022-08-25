@@ -1,49 +1,21 @@
-#TODO: 
-
 # Part 2: Communicating with server, phonebook
-
-This application allows you to manage a phonebook: addition, modification, deletion and filter of a contact.
 
 ## phonebook
 
-# Operations
-- Add new person:
+This frontend application communicates with the backend server (Heroku server) to manage a phonebook: addition, modification, deletion and filter of a contact.
 
-    ![](phonebook1.JPG)
+This section teaches how to do a production build of an application created with create-react-app.
+This section also teaches how to add a proxy so that the frontend application works in development and production mode.
 
-- Modify person:
-
-    ![](phonebook2.JPG)
-
-    ![](phonebook3.JPG)
-
-- Delete person:
-
-    ![](phonebook4.JPG)
-
-    ![](phonebook5.JPG)
-
-- Filter person by name:
-
-    ![](phonebook7.JPG)
-
-# Others
-
-This application uses json-server to store all data in db.json file. 
-
-![](phonebook6.JPG)
-
-This application also handle some exception. If you delete a person in browser 1 a short while before attempting to change the person's phone number in browser 2, you will get a error message.
-
-![](phonebook8.JPG)
-    
-![](phonebook9.JPG)
+![](phonebook1.JPG)
 
 ## Run 
 - `npm start`
 Runs the app in the development mode.<br />
-Open [http://localhost:3002](http://localhost:3002) to view it in the browser.
+Open [http://localhost:3002](http://localhost:3002) after running the backend server to view the app in the browser.
 
-- `npm run server`
-Runs the json server.<br />
-Open [http://localhost:3001/persons](http://localhost:3001/persons) to view the persons stored in the database.
+## This project contains two sections:
+### BE
+https://github.com/baotranC/fullstackopen2022_part3_BE
+### FE
+https://github.com/baotranC/fullstackopen2022/tree/main/part3/phonebook_part2_Frontend
