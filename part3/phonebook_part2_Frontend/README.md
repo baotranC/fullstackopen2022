@@ -1,3 +1,5 @@
+#TODO: 
+
 # Part 2: Communicating with server, phonebook
 
 This application allows you to manage a phonebook: addition, modification, deletion and filter of a contact.
