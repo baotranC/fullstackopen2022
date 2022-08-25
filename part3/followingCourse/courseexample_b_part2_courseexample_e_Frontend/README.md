@@ -11,10 +11,10 @@ This section also teaches how to add a proxy so that the frontend application wo
 ## Run 
 - `npm start`
 Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:3000](http://localhost:3000) after running the backend server to view the app in the browser.
 
 ## This project contains two sections:
 ### BE
-- https://github.com/baotranC/fullstackopen2022_part3_followingCourse_BE
+https://github.com/baotranC/fullstackopen2022_part3_followingCourse_BE
 ### FE
-- https://github.com/baotranC/fullstackopen2022/tree/main/part3/followingCourse/courseexample_b_part2_courseexample_e_Frontend
+https://github.com/baotranC/fullstackopen2022/tree/main/part3/followingCourse/courseexample_b_part2_courseexample_e_Frontend
