@@ -1,7 +1,3 @@
-
-
-
-
 # Notes app# Part 3: Following course
 
 ## following course a) Node.js and Express
