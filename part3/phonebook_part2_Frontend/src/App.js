@@ -19,8 +19,6 @@ const App = () => {
       })
   }, [])
 
-  // console.log(persons)
-
   const handleNameChange = (event) => {
     setNewName(event.target.value)
   }
@@ -51,12 +49,19 @@ const App = () => {
               setStatus({ message: null, type: null })
             }, 5000)
           }).catch(error => {
-            setStatus(
-              {
-                message: `the person '${personInPhonebook.name}' was already deleted from server`,
+            if (error?.response?.data) {
+              setStatus({
+                message: `The person was not updated: ${error.response.data.error}`,
                 type: 'error'
-              }
-            )
+              })
+            } else {
+              setStatus(
+                {
+                  message: `the person '${personInPhonebook.name}' was already deleted from server`,
+                  type: 'error'
+                }
+              )
+            }
             setTimeout(() => {
               setStatus({ message: null, type: null })
             }, 5000)
@@ -84,6 +89,18 @@ const App = () => {
           setTimeout(() => {
             setStatus({ message: null, type: null })
           }, 5000)
+        }).catch(error => {
+          console.log(error)
+          setStatus(
+            {
+              message: `The person was not added: ${error.response.data.error}`,
+              type: 'error'
+            }
+          )
+          setTimeout(() => {
+            setStatus({ message: null, type: null })
+          }, 5000)
+          setPersons(persons.filter(person => person.id !== personInPhonebook.id))
         })
     }
   }
