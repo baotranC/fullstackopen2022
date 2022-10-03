@@ -19,3 +19,12 @@ Open [http://localhost:3002](http://localhost:3002) after running the backend se
 https://github.com/baotranC/fullstackopen2022_part3_BE
 ### FE
 https://github.com/baotranC/fullstackopen2022/tree/main/part3/phonebook_part2_Frontend
+
+## Others
+### Debugging
+Different ways to debug: 
+1) Console log
+2) Visual Studio Code debugger: See Debugging in VS Code: https://code.visualstudio.com/docs/editor/debugging
+  ![](../Debugging1_VSCodeDebugger.JPG)
+4) Chrome dev tools: by starting your application with the command: node --inspect index.js 
+  ![](../Debugging2_ChromeDevTool.JPG)
