@@ -1,8 +1,7 @@
-
-// TODO: Add morgan ?
 const notesRouter = require('express').Router()
 const Blog = require('../models/blog')
 
+/// APIs: HTTP METHODS
 notesRouter.get('/', (request, response) => {
 	Blog
 		.find({})
@@ -12,8 +11,28 @@ notesRouter.get('/', (request, response) => {
 })
 
 notesRouter.post('/', (request, response, next) => {
-	// TODO: Add validation
-	const blog = new Blog(request.body)
+	// validation
+	const body = request.body
+	if (!body.title) {
+		return response.status(400).json({
+			error: 'title missing'
+		})
+	} else if (!body.author) {
+		return response.status(400).json({
+			error: 'author missing'
+		})
+	} else if (!body.url) {
+		return response.status(400).json({
+			error: 'url missing'
+		})
+	}
+	else if (!body.likes) {
+		return response.status(400).json({
+			error: 'likes missing'
+		})
+	}
+
+	const blog = new Blog(body)
 
 	blog
 		.save()
