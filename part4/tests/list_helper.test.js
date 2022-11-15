@@ -33,10 +33,7 @@ describe('total likes', () => {
 		const result = listHelper.totalLikes(listWithOneBlog)
 		expect(result).toBe(5)
 	})
-})
 
-// 4.4
-describe('total likes', () => {
 	const blogs = [
 		{
 			_id: "5a422a851b54a676234d17f7",
