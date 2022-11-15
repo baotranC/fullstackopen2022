@@ -1,8 +1,11 @@
-/*
-	Another way of running a single test (or describe block) is to specify the name of the test to be run with the -t flag:
-		e.g.: npm test -- -t 'when list has only one blog, equals the likes of that'
+/* 
+	Test for a) Structure of backend application, introduction to testing
 */
 
+/*
+	Tips: Another way of running a single test (or describe block) is to specify the name of the test to be run with the -t flag:
+		e.g.: npm test -- -t 'when list has only one blog, equals the likes of that'
+*/
 const listHelper = require('../utils/list_helper')
 
 // 4.3
