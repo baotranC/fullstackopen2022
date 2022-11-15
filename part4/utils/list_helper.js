@@ -19,8 +19,26 @@ const favoriteBlog = (blogs) => {
 	return favoriteBlogFormatted;
 }
 
+// Reference by Maheer Ali: https://stackoverflow.com/questions/55038993/how-to-sum-value-in-javascript-array-object-form-specific-search-id
+const mostLikes = (blogs) => {
+	const likesPerAuthor = blogs.reduce((prev, current) => {
+		const index = prev.findIndex(x => x.author === current.author);
+		index === -1 ? prev.push(current) : prev[index].likes += current.likes;
+		return prev;
+	}, [])
+
+	const mostLikesAuthor = likesPerAuthor.reduce((prev, current) => prev.likes > current.likes ? prev : current);
+	const mostLikesAuthorFormatted = {
+		author: mostLikesAuthor.author,
+		likes: mostLikesAuthor.likes
+	}
+	
+	return mostLikesAuthorFormatted;
+}
+
 module.exports = {
 	dummy,
 	totalLikes,
-	favoriteBlog
+	favoriteBlog,
+	mostLikes
 }
