@@ -82,21 +82,39 @@ describe('when creates a new blog post', () => {
 	}, 100000)
 })
 
-// 4.11
-// npm test -- -t 'likes property is missing from the request, default to the value 0'
-test('likes property is missing from the request, default to the value 0', async () => {
-	await api
-		.post('/api/blogs')
-		.send(helper.blogWithNonExistingLike)
-		.expect(201)
-		.expect('Content-Type', /application\/json/)
+// 4.11 and 4.12
+// npm test -- -t 'when creates a new blog post with missing properties'
+describe('when creates a new blog post with missing properties', () => {
+	// 4.11
+	test('likes property is missing from the request, default to the value 0', async () => {
+		await api
+			.post('/api/blogs')
+			.send(helper.blogWithNonExistingLike)
+			.expect(201)
+			.expect('Content-Type', /application\/json/)
 
 		const response = await api.get('/api/blogs')
 		const lastBlogAdded = response.body[response.body.length - 1];
 		expect(lastBlogAdded.likes).toBe(0)
-}, 100000)
+	}, 100000)
 
+	// 4.12
+	test('title property is missing from the request, responds with status code 400 Bad Request', async () => {
+		await api
+			.post('/api/blogs')
+			.send(helper.blogWithNonExistingTitle)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+	}, 100000)
 
+	test('url property is missing from the request, responds with status code 400 Bad Request', async () => {
+		await api
+			.post('/api/blogs')
+			.send(helper.blogWithNonExistingUrl)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+	}, 100000)
+})
 
 
 // AFTER ALL

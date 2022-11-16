@@ -31,7 +31,21 @@ const blogWithNonExistingLike = {
 	url: "https://reactpatterns.com/"
 }
 
+const blogWithNonExistingTitle = {
+	author: "Michael Chan",
+	url: "https://reactpatterns.com/",
+	likes: 2
+}
+
+const blogWithNonExistingUrl = {
+	title: "No URL",
+	author: "Michael Chan",
+	likes: 2
+}
+
 module.exports = {
 	initialBlogs,
-	blogWithNonExistingLike
+	blogWithNonExistingLike,
+	blogWithNonExistingTitle,
+	blogWithNonExistingUrl
 }
