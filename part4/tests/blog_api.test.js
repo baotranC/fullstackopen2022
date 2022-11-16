@@ -82,6 +82,23 @@ describe('when creates a new blog post', () => {
 	}, 100000)
 })
 
+// 4.11
+// npm test -- -t 'likes property is missing from the request, default to the value 0'
+test('likes property is missing from the request, default to the value 0', async () => {
+	await api
+		.post('/api/blogs')
+		.send(helper.blogWithNonExistingLike)
+		.expect(201)
+		.expect('Content-Type', /application\/json/)
+
+		const response = await api.get('/api/blogs')
+		const lastBlogAdded = response.body[response.body.length - 1];
+		expect(lastBlogAdded.likes).toBe(0)
+}, 100000)
+
+
+
+
 // AFTER ALL
 afterAll(() => {
 	mongoose.connection.close()

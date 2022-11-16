@@ -29,6 +29,10 @@ notesRouter.post('/', async (request, response, next) => {
 	// 	})
 	// }
 
+	if (!body.likes) {
+		body.likes = 0
+	}
+
 	const blog = new Blog(body)
 
 	try {
