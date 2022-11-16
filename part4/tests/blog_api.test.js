@@ -32,6 +32,12 @@ test('correct amount of blog posts in the JSON format', async () => {
 	expect(response.body).toHaveLength(4)
 }, 100000)
 
+// npm test -- -t 'unique identifier property of the blog posts is named id'
+test('unique identifier property of the blog posts is named id', async () => {
+	const response = await api.get('/api/blogs')
+	expect(response.body[0].id).toBeDefined()
+}, 100000)
+
 
 // AFTER ALL
 afterAll(() => {
