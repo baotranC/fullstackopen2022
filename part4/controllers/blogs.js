@@ -38,4 +38,27 @@ notesRouter.post('/', async (request, response, next) => {
 	}
 })
 
+notesRouter.delete('/:id', async (request, response, next) => {
+	try {
+		await Blog.findByIdAndRemove(request.params.id);
+		response.status(204).end()
+	} catch (exception) {
+		next(exception)
+	}
+})
+
+// notesRouter.put('/:id', async (request, response, next) => {
+// 	const { title, author, url, likes } = request.body
+
+// 	try {
+// 		await Blog.findByIdAndUpdate(request.params.id,
+// 			{ title, author, url, likes },
+// 			{ new: true, runValidators: true, context: 'query' });
+// 		response.status(204).json(saveBlog)
+// 	} catch (exception) {
+// 		next(exception)
+// 	}
+// })
+
+
 module.exports = notesRouter

@@ -42,8 +42,8 @@ test('unique identifier property of the blog posts is named id', async () => {
 
 
 // 4.10
-// npm test -- -t 'when creates a new blog post'
-describe('when creates a new blog post', () => {
+// npm test -- -t 'when blog post is created'
+describe('when blog post is created', () => {
 	test('total number of blogs in the system is increased by one', async () => {
 		const newBlog = {
 			title: "Happy",
@@ -83,8 +83,8 @@ describe('when creates a new blog post', () => {
 })
 
 // 4.11 and 4.12
-// npm test -- -t 'when creates a new blog post with missing properties'
-describe('when creates a new blog post with missing properties', () => {
+// npm test -- -t 'when blog post is created with missing properties'
+describe('when blog post is created with missing properties', () => {
 	// 4.11
 	test('likes property is missing from the request, default to the value 0', async () => {
 		await api
@@ -115,6 +115,37 @@ describe('when creates a new blog post with missing properties', () => {
 			.expect('Content-Type', /application\/json/)
 	}, 100000)
 })
+
+// 4.13
+// npm test -- -t 'when a blog is deleted'
+describe('when a blog is deleted', () => {
+	test('total number of blogs in the system is decreased by one', async () => {
+		const response = await api.get('/api/blogs')
+		const noteToDelete = response.body[0];
+
+		await api
+			.delete(`/api/blogs/${noteToDelete.id}`)
+			.expect(204)
+
+		const response2 = await api.get('/api/blogs')
+		expect(response2.body).toHaveLength(response.body.length - 1)
+	}, 100000)
+
+	test('content of the blog post is deleted correctly', async () => {
+		const response = await api.get('/api/blogs')
+		const noteToDelete = response.body[0];
+		const titleOfNoteToDelete = noteToDelete.title
+
+		await api
+			.delete(`/api/blogs/${noteToDelete.id}`)
+			.expect(204)
+
+		const response2 = await api.get('/api/blogs')
+		const titles = response2.body.map(r => r.title)
+		expect(titles).not.toContain(titleOfNoteToDelete)
+	}, 100000)
+})
+
 
 
 // AFTER ALL
