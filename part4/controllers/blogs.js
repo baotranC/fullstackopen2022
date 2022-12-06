@@ -7,17 +7,11 @@ notesRouter.get('/', async (request, response) => {
 	response.json(blogs)
 })
 
-notesRouter.post('/', async (request, response, next) => {
-	// validation
-	const body = request.body
+const validateBlog = (body, response) => {
 	if (!body.title) {
 		return response.status(400).json({
 			error: 'title missing'
 		})
-		// } else if (!body.author) {
-		// 	return response.status(400).json({
-		// 		error: 'author missing'
-		// 	})
 	} else if (!body.url) {
 		return response.status(400).json({
 			error: 'url missing'
@@ -27,6 +21,12 @@ notesRouter.post('/', async (request, response, next) => {
 	if (!body.likes) {
 		body.likes = 0
 	}
+
+}
+
+notesRouter.post('/', async (request, response, next) => {
+	const body = request.body
+	validateBlog(body, response)
 
 	const blog = new Blog(body)
 
@@ -47,18 +47,18 @@ notesRouter.delete('/:id', async (request, response, next) => {
 	}
 })
 
-// notesRouter.put('/:id', async (request, response, next) => {
-// 	const { title, author, url, likes } = request.body
+notesRouter.put('/:id', async (request, response, next) => {
+	const { title, author, url, likes } = request.body
+	validateBlog(request.body)
 
-// 	try {
-// 		await Blog.findByIdAndUpdate(request.params.id,
-// 			{ title, author, url, likes },
-// 			{ new: true, runValidators: true, context: 'query' });
-// 		response.status(204).json(saveBlog)
-// 	} catch (exception) {
-// 		next(exception)
-// 	}
-// })
-
+	try {
+		await Blog.findByIdAndUpdate(request.params.id,
+			{ title, author, url, likes },
+			{ new: true, runValidators: true, context: 'query' });
+		response.status(204).json(saveBlog)
+	} catch (exception) {
+		next(exception)
+	}
+})
 
 module.exports = notesRouter

@@ -1,3 +1,5 @@
+// npm test -- tests/blog_api.test.js
+
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
@@ -85,7 +87,6 @@ describe('when blog post is created', () => {
 // 4.11 and 4.12
 // npm test -- -t 'when blog post is created with missing properties'
 describe('when blog post is created with missing properties', () => {
-	// 4.11
 	test('likes property is missing from the request, default to the value 0', async () => {
 		await api
 			.post('/api/blogs')
@@ -96,7 +97,7 @@ describe('when blog post is created with missing properties', () => {
 		const response = await api.get('/api/blogs')
 		const lastBlogAdded = response.body[response.body.length - 1];
 		expect(lastBlogAdded.likes).toBe(0)
-	}, 100000)
+	}, 10000)
 
 	// 4.12
 	test('title property is missing from the request, responds with status code 400 Bad Request', async () => {
