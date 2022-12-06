@@ -40,7 +40,7 @@ notesRouter.post('/', async (request, response, next) => {
 
 notesRouter.delete('/:id', async (request, response, next) => {
 	try {
-		await Blog.findByIdAndRemove(request.params.id);
+		await Blog.findByIdAndRemove(request.params.id)
 		response.status(204).end()
 	} catch (exception) {
 		next(exception)
@@ -52,10 +52,10 @@ notesRouter.put('/:id', async (request, response, next) => {
 	validateBlog(request.body)
 
 	try {
-		await Blog.findByIdAndUpdate(request.params.id,
+		updatedNote = await Blog.findByIdAndUpdate(request.params.id,
 			{ title, author, url, likes },
-			{ new: true, runValidators: true, context: 'query' });
-		response.status(204).json(saveBlog)
+			{ new: true, runValidators: true, context: 'query' })
+		response.status(204).json(updatedNote)
 	} catch (exception) {
 		next(exception)
 	}

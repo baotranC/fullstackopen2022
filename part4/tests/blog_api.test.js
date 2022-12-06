@@ -79,7 +79,7 @@ describe('when blog post is created', () => {
 			.expect('Content-Type', /application\/json/)
 
 		const response = await api.get('/api/blogs')
-		const lastBlogAdded = response.body[response.body.length - 1];
+		const lastBlogAdded = response.body[response.body.length - 1]
 		expect(lastBlogAdded).toMatchObject(newBlog)
 	}, 100000)
 })
@@ -95,7 +95,7 @@ describe('when blog post is created with missing properties', () => {
 			.expect('Content-Type', /application\/json/)
 
 		const response = await api.get('/api/blogs')
-		const lastBlogAdded = response.body[response.body.length - 1];
+		const lastBlogAdded = response.body[response.body.length - 1]
 		expect(lastBlogAdded.likes).toBe(0)
 	}, 10000)
 
@@ -122,7 +122,7 @@ describe('when blog post is created with missing properties', () => {
 describe('when a blog is deleted', () => {
 	test('total number of blogs in the system is decreased by one', async () => {
 		const response = await api.get('/api/blogs')
-		const noteToDelete = response.body[0];
+		const noteToDelete = response.body[0]
 
 		await api
 			.delete(`/api/blogs/${noteToDelete.id}`)
@@ -134,7 +134,7 @@ describe('when a blog is deleted', () => {
 
 	test('content of the blog post is deleted correctly', async () => {
 		const response = await api.get('/api/blogs')
-		const noteToDelete = response.body[0];
+		const noteToDelete = response.body[0]
 		const titleOfNoteToDelete = noteToDelete.title
 
 		await api
@@ -147,7 +147,44 @@ describe('when a blog is deleted', () => {
 	}, 100000)
 })
 
+// 4.14
+// npm test -- -t 'when a blog is updated'
+describe('when a blog is updated', () => {
+	test('total number of blogs in the system is the same', async () => {
+		const response = await api.get('/api/blogs')
+		const noteToUpdate = response.body[0]
 
+		await api
+			.put(`/api/blogs/${noteToUpdate.id}`)
+			.send(noteToUpdate)
+			.expect(204)
+
+		const response2 = await api.get('/api/blogs')
+		expect(response2.body).toHaveLength(response.body.length)
+	}, 100000)
+
+	test('content of the blog post is updated correctly, likes and author', async () => {
+		const newTitle = "New title"
+		const newLikes = 8
+
+		const response = await api.get('/api/blogs')
+		const noteToUpdate = response.body[0]
+	
+		console.log("+++ noteToUpdate", noteToUpdate)
+		noteToUpdate.title = newTitle
+		noteToUpdate.likes = newLikes
+
+		await api
+			.put(`/api/blogs/${noteToUpdate.id}`)
+			.send(noteToUpdate)
+			.expect(204)
+
+		const response2 = await api.get('/api/blogs')
+		const noteUpdated = response2.body[0]
+		expect(noteUpdated.likes).toBe(newLikes)
+		expect(noteUpdated.title).toBe(newTitle)
+	}, 100000)
+})
 
 // AFTER ALL
 afterAll(() => {
