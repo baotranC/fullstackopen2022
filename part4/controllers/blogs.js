@@ -1,9 +1,10 @@
-const notesRouter = require('express').Router()
+const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 /// APIs: HTTP METHODS
-notesRouter.get('/', async (request, response) => {
-	const blogs = await Blog.find({})
+blogsRouter.get('/', async (request, response) => {
+	const blogs = await Blog.find({}).populate('user', { username: 1, name: 1, id: 1 })
 	response.json(blogs)
 })
 
@@ -23,21 +24,34 @@ const validateBlog = (body, response) => {
 	}
 }
 
-notesRouter.post('/', async (request, response, next) => {
+blogsRouter.post('/', async (request, response, next) => {
 	const body = request.body
 	validateBlog(body, response)
 
-	const blog = new Blog(body)
+	// TODO: Change this later 4.19
+	const users = await User.find({})
+	const user = users.pop();
+	// const user = await User.findById(body.userId)
+	const blog = new Blog({
+		title: body.title,
+		author: body.author,
+		url: body.url,
+		likes: body.likes,
+		user: user.id
+	})
 
 	try {
-		const saveBlog = await blog.save()
-		response.status(201).json(saveBlog)
+		const savedBlog = await blog.save()
+		user.blogs = user.blogs.concat(savedBlog._id)
+		await user.save()
+
+		response.status(201).json(savedBlog)
 	} catch (exception) {
 		next(exception)
 	}
 })
 
-notesRouter.delete('/:id', async (request, response, next) => {
+blogsRouter.delete('/:id', async (request, response, next) => {
 	try {
 		await Blog.findByIdAndRemove(request.params.id)
 		response.status(204).end()
@@ -46,18 +60,18 @@ notesRouter.delete('/:id', async (request, response, next) => {
 	}
 })
 
-notesRouter.put('/:id', async (request, response, next) => {
+blogsRouter.put('/:id', async (request, response, next) => {
 	const { title, author, url, likes } = request.body
 	validateBlog(request.body)
 
 	try {
-		updatedNote = await Blog.findByIdAndUpdate(request.params.id,
+		updatedBlog = await Blog.findByIdAndUpdate(request.params.id,
 			{ title, author, url, likes },
 			{ new: true, runValidators: true, context: 'query' })
-		response.status(204).json(updatedNote)
+		response.status(204).json(updatedBlog)
 	} catch (exception) {
 		next(exception)
 	}
 })
 
-module.exports = notesRouter
+module.exports = blogsRouter

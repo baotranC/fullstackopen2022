@@ -122,10 +122,10 @@ describe('when blog post is created with missing properties', () => {
 describe('when a blog is deleted', () => {
 	test('total number of blogs in the system is decreased by one', async () => {
 		const response = await api.get('/api/blogs')
-		const noteToDelete = response.body[0]
+		const blogToDelete = response.body[0]
 
 		await api
-			.delete(`/api/blogs/${noteToDelete.id}`)
+			.delete(`/api/blogs/${blogToDelete.id}`)
 			.expect(204)
 
 		const response2 = await api.get('/api/blogs')
@@ -134,16 +134,16 @@ describe('when a blog is deleted', () => {
 
 	test('content of the blog post is deleted correctly', async () => {
 		const response = await api.get('/api/blogs')
-		const noteToDelete = response.body[0]
-		const titleOfNoteToDelete = noteToDelete.title
+		const blogToDelete = response.body[0]
+		const titleOfBlogToDelete = blogToDelete.title
 
 		await api
-			.delete(`/api/blogs/${noteToDelete.id}`)
+			.delete(`/api/blogs/${blogToDelete.id}`)
 			.expect(204)
 
 		const response2 = await api.get('/api/blogs')
 		const titles = response2.body.map(r => r.title)
-		expect(titles).not.toContain(titleOfNoteToDelete)
+		expect(titles).not.toContain(titleOfBlogToDelete)
 	}, 100000)
 })
 
@@ -152,11 +152,11 @@ describe('when a blog is deleted', () => {
 describe('when a blog is updated', () => {
 	test('total number of blogs in the system is the same', async () => {
 		const response = await api.get('/api/blogs')
-		const noteToUpdate = response.body[0]
+		const blogToUpdate = response.body[0]
 
 		await api
-			.put(`/api/blogs/${noteToUpdate.id}`)
-			.send(noteToUpdate)
+			.put(`/api/blogs/${blogToUpdate.id}`)
+			.send(blogToUpdate)
 			.expect(204)
 
 		const response2 = await api.get('/api/blogs')
@@ -168,21 +168,20 @@ describe('when a blog is updated', () => {
 		const newLikes = 8
 
 		const response = await api.get('/api/blogs')
-		const noteToUpdate = response.body[0]
+		const blogToUpdate = response.body[0]
 	
-		console.log("+++ noteToUpdate", noteToUpdate)
-		noteToUpdate.title = newTitle
-		noteToUpdate.likes = newLikes
+		blogToUpdate.title = newTitle
+		blogToUpdate.likes = newLikes
 
 		await api
-			.put(`/api/blogs/${noteToUpdate.id}`)
-			.send(noteToUpdate)
+			.put(`/api/blogs/${blogToUpdate.id}`)
+			.send(blogToUpdate)
 			.expect(204)
 
 		const response2 = await api.get('/api/blogs')
-		const noteUpdated = response2.body[0]
-		expect(noteUpdated.likes).toBe(newLikes)
-		expect(noteUpdated.title).toBe(newTitle)
+		const blogUpdated = response2.body[0]
+		expect(blogUpdated.likes).toBe(newLikes)
+		expect(blogUpdated.title).toBe(newTitle)
 	}, 100000)
 })
 
