@@ -21,7 +21,6 @@ const validateBlog = (body, response) => {
 	if (!body.likes) {
 		body.likes = 0
 	}
-
 }
 
 notesRouter.post('/', async (request, response, next) => {
