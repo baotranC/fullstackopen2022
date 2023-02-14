@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 
 const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
+const usersRouter = require('./controllers/users')
 
 // DB connection
 mongoose.connect(config.MONGODB_URI)
@@ -33,6 +34,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 /* Middleware that is used to define all routes
    for the router object */
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', usersRouter)
 
 /* Middleware that is used for catching requests
    made to non-existent routes */
@@ -49,9 +51,13 @@ const errorHandler = (error, request, response, next) => {
 		return response.status(400).send({ error: 'malformatted id' })
 	} else if (error.name === 'ValidationError') {
 		return response.status(400).json({ error: error.message })
-	}
+	} 
 	next(error)
 }
 app.use(errorHandler)
+
+// process.on('uncaughtException', function (error) {
+// 	console.error(`The app crashed ${error.message}`);
+// });
 
 module.exports = app

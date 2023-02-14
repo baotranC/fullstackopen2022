@@ -1,10 +1,10 @@
 // npm test -- tests/blog_api.test.js
 
+const app = require('../app')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
-const app = require('../app')
-const Blog = require('../models/blog')
 const helper = require('./test_helper')
+const Blog = require('../models/blog')
 
 const api = supertest(app)
 
