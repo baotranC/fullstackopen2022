@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 
 // DB connection
 mongoose.connect(config.MONGODB_URI)
@@ -35,6 +36,7 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
    for the router object */
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 /* Middleware that is used for catching requests
    made to non-existent routes */
