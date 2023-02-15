@@ -1,6 +1,6 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub3RoZXJSb290TmFtZTMiLCJpZCI6IjYzZWJmM2IyOTgxYTJkNmEzODBmOTg1OSIsImlhdCI6MTY3NjQxMzY4OSwiZXhwIjoxNjc2NDE3Mjg5fQ.Yv5rELhBua8fJxVN8v0jGnJmM9_-PYxf4KQ1ZpBi7_8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFub3RoZXJSb290TmFtZTMiLCJpZCI6IjYzZWJmM2IyOTgxYTJkNmEzODBmOTg1OSIsImlhdCI6MTY3NjQzNjYyMCwiZXhwIjoxNjc2NDQwMjIwfQ.NaXhNemDrZkWRC0UznlBXSOhzvjo8i_ZT6ULL7JQsj4
 
 {
     "title": "with authorization title 1",
