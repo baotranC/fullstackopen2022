@@ -1,6 +1,8 @@
 
-// const User = require("../models/user");
-// const jwt = require("jsonwebtoken");
+const config = require('./config')
+const User = require("../models/user")
+const jwt = require("jsonwebtoken")
+
 
 /* Middleware that is used for catching requests
    made to non-existent routes */
@@ -17,7 +19,20 @@ const tokenExtractor = (request, response, next) => {
 	if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
 		request.token = authorization.replace('bearer ', '')
 	}
-	next();
+	next()
+}
+
+/* 	Middleware that finds out the user and 
+	sets it to the request object */
+const userExtractor = async (request, response, next) => {
+	const token = request.token
+	console.log("userExtractor token", token)
+	if (token) {
+		const decodedToken = jwt.verify(token, config.SECRET)
+		const user = await User.findById(decodedToken.id)
+		request.user = user
+	}
+	next()
 }
 
 /* Middleware that handles the errors
@@ -36,21 +51,9 @@ const errorHandler = (error, request, response, next) => {
 	next(error)
 }
 
-/* 	Middleware that finds out the user and 
-	sets it to the request object */
-
-// const userExtractor = async (request, response, next) => {
-// 	const token = request.token;
-// 	if (token) {
-// 		const decodedToken = jwt.verify(token, config.SECRET);
-// 		const user = await User.findById(decodedToken.id);
-// 		request.user = user;
-// 	}
-// }
-
 module.exports = {
 	unknownEndpoint,
 	tokenExtractor,
-	errorHandler,
-	// userExtractor,
-};
+	userExtractor,
+	errorHandler
+}
