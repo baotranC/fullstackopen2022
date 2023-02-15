@@ -1,3 +1,6 @@
+// const { config2 } = require('dotenv')
+const config = require('../utils/config')
+const jwt = require('jsonwebtoken')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -26,21 +29,26 @@ const validateBlog = (body, response) => {
 
 blogsRouter.post('/', async (request, response, next) => {
 	const body = request.body
-	validateBlog(body, response)
-
-	// TODO: Change this later 4.19
-	const users = await User.find({})
-	const user = users.pop();
-	// const user = await User.findById(body.userId)
-	const blog = new Blog({
-		title: body.title,
-		author: body.author,
-		url: body.url,
-		likes: body.likes,
-		user: user.id
-	})
 
 	try {
+		const decodedToken = jwt.verify(request.token, config.SECRET)
+		if (!decodedToken.id) {
+			return response.status(401).json({ error: 'token invalid' })
+		}
+
+		validateBlog(body, response)
+
+		const user = await User.findById(decodedToken.id)
+
+		const blog = new Blog({
+			title: body.title,
+			author: body.author,
+			url: body.url,
+			likes: body.likes,
+			user: user.id
+		})
+
+
 		const savedBlog = await blog.save()
 		user.blogs = user.blogs.concat(savedBlog._id)
 		await user.save()

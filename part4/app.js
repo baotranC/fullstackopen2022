@@ -4,11 +4,14 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
+// const jwt = require('jsonwebtoken')
 
 const config = require('./utils/config')
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
+
+const User = require('./models/user')
 
 // DB connection
 mongoose.connect(config.MONGODB_URI)
@@ -32,6 +35,33 @@ morgan.token('body', (req) => {
 })
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
+/* 	Middleware that takes the token from the 
+	Authorization header and place it into the 
+	token field of the request object */
+
+const tokenExtractor = (request, response, next) => {
+	const authorization = request.get("authorization")
+
+	if (authorization && authorization.toLowerCase().startsWith("bearer ")) {
+		request.token = authorization.replace('bearer ', '')
+	}
+	next();
+}
+app.use(tokenExtractor)
+
+/* 	Middleware that finds out the user and 
+	sets it to the request object */
+
+// const userExtractor = async (request, response, next) => {
+// 	const token = request.token;
+// 	if (token) {
+// 		const decodedToken = jwt.verify(token, config.SECRET);
+// 		const user = await User.findById(decodedToken.id);
+// 		request.user = user;
+// 	}
+// }
+// app.use(userExtractor)
+
 /* Middleware that is used to define all routes
    for the router object */
 app.use('/api/blogs', blogsRouter)
@@ -53,7 +83,11 @@ const errorHandler = (error, request, response, next) => {
 		return response.status(400).send({ error: 'malformatted id' })
 	} else if (error.name === 'ValidationError') {
 		return response.status(400).json({ error: error.message })
-	} 
+	} else if (error.name === 'JsonWebTokenError') {
+		return response.status(400).json({ error: 'token missing or invalid' })
+	} else if (error.name === 'TokenExpiredError') {
+		return response.status(401).json({ error: 'token expired' })
+	}
 	next(error)
 }
 app.use(errorHandler)

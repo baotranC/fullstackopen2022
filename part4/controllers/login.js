@@ -5,6 +5,8 @@ const User = require('../models/user')
 const config = require('../utils/config')
 
 loginRouter.post('/', async (request, response) => {
+	console.log("TOKEN POST in LOGIN", request.token);
+
 	const { username, password } = request.body
 
 	const user = await User.findOne({ username })
@@ -28,7 +30,13 @@ loginRouter.post('/', async (request, response) => {
 		The digital signature ensures that only parties who 
 		know the secret can generate a valid token.  
    */
-	const token = jwt.sign(userForToken, config.SECRET)
+	// token expires in 60*60 seconds, that is, in one hour
+
+	const token = jwt.sign(
+		userForToken,
+		config.SECRET,
+		{ expiresIn: 60 * 60 }
+	)
 
 	response
 		.status(200)
